@@ -5,23 +5,23 @@ The tutorial explains about the control system of a 4 DoF Robotic Arm
 
 &nbsp;
 ## **Components Used**:
-- RHINO 60RPM 40KGCM 12V DC PLANETARY GEARED QUAD ENCODER SERVO MOTOR - 1
-- RHINO 30RPM 70KGCM 12V DC PLANETARY GEARED QUAD ENCODER SERVO MOTOR - 1
+- Teensy 4.1
+- Rhino 60rpm 40kgcm 12v Dc Planetary Geared Quad Encoder Servo Motor - 1
+- Rhino 30rpm 70kgcm 12v Dc Planetary Geared Quad Encoder Servo Motor - 1
 - MG995 Metal Gear Servo Motor - 1
 - 12V 100MM Stroke Length Linear Actuator 7mm/S 1500N
 - 57HS76-2804 NEMA23 18.9 kg-cm Stepper Motor – Round Type Shaft
-
 - TB6600 Stepper Motor Driver -1
 - Cytron DC Motor Driver MD10C -3
 - 12 V DC Power supply
 - BreadBoard
 - Jumper Wires
-- Teensy 4.1
+
 
 &nbsp;
 
 ## **Pre-Requisite:**
-- ROS Noetic
+- Ubuntu 20.04 with ROS Noetic
 - VS Code with PlatformIO 
 
 &nbsp;
@@ -29,12 +29,12 @@ The tutorial explains about the control system of a 4 DoF Robotic Arm
 
 ## **Circuit Diagram & Connections**
 
-- ![fig 1](/Pick-Place-Robotic-Arm/images/circuit.jpg)
+- ![fig 1](./images/circuit.jpg)
 
 &nbsp;
 ## **Procedure**:
 
-1. Create New Project ![fig 2](/Pick-Place-Robotic-Arm/images/platformio.png)
+1. Create New Project ![fig 2](./images/platformio.png)
 &nbsp;
 2. Name the project, Select Board teensey 4.1
 
@@ -46,7 +46,7 @@ The tutorial explains about the control system of a 4 DoF Robotic Arm
 4. Go to Include folder and make a file named PositionControl.h and paste the given code.
 &nbsp;
 
-5. Go to libraries section and search for ros. Download the Rosserial Arduino Library by Michael Ferguson. Select the project name and add project dependency. ![fig 3](./Images//platformio_lib.png) 
+5. Go to libraries section and search for ros. Download the Rosserial Arduino Library by Michael Ferguson. Select the project name and add project dependency. ![fig 3](./images/platformio_lib.png) 
 
 6. Add one more library named 'AutoPID' using same method.
 &nbsp;
@@ -61,9 +61,20 @@ roscore
 10. Terminal 2: 
 
 ```
-rosrun rosserial_arduino serial_node.py /dev/ttyACM0 _baud:=9600
+rosrun rosserial_arduino serial_node.py /dev/ttyACM0 _baud:=115200
 ```
 11. Terminal 3: 
 ```
-*rostopic pub /position_in std_msgs/Float32 "data: 10.0" -1*
+rostopic pub /joint_states sensor_msgs/JointState "header:
+  seq: 0
+  stamp: {secs: 0, nsecs: 0}
+  frame_id: ''
+name: ['']
+position: [10,10,5,5,5]
+velocity: [0]
+effort: [0]"-1
 ```
+
+## **References:**
+- [Position Control](https://github.com/mission-mangal/PositionControl)
+
